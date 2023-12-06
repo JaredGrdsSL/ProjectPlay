@@ -18,7 +18,7 @@ public class playermvmnt : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Wall")) 
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
 }

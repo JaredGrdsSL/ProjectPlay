@@ -1,20 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
+public class Respawn : MonoBehaviour {
 
+    public GameObject respawnPoint;
+    public GameObject objectToRespawn;
 
-public class Respawn : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
+    private void OnCollisionEnter2D(Collision2D other)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if(other.gameObject.CompareTag("Player")) {
+            objectToRespawn.transform.position = respawnPoint.transform.position;
+        }
     }
 }
