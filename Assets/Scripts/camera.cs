@@ -6,7 +6,7 @@ using static UnityEngine.RuleTile.TilingRuleOutput;
 public class camera : MonoBehaviour
 {
     public UnityEngine.Transform player; // Explicitly specify the Transform from UnityEngine
-    public float verticalOffset = 2.0f;
+    public float verticalOffset = -2.0f;
 
     void LateUpdate()
     {
