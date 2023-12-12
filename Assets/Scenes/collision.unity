@@ -316,7 +316,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0
   far clip plane: 1000
   field of view: 0.56023407
   orthographic: 1
@@ -407,9 +407,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce4803604b536a74ba0342e0addea9b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 715359490}
-  smoothSpeed: 0.05
-  offset: {x: 0, y: 0, z: 0}
+  player: {fileID: 715359490}
+  verticalOffset: 0
 --- !u!1 &715359486
 GameObject:
   m_ObjectHideFlags: 0
@@ -563,7 +562,7 @@ Transform:
   m_GameObject: {fileID: 715359486}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.095, y: 1.41, z: 0}
+  m_LocalPosition: {x: -0.013, y: 1.252, z: 0}
   m_LocalScale: {x: 0.25, y: 0.25, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -587,18 +586,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4086693672103403286, guid: 294ee73b5e219d447aa13df205913b82, type: 3}
   m_PrefabInstance: {fileID: 1850963900809517429}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &900313385
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 900313381}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f35810858c5e11947a2451445635bc05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!50 &900313388
 Rigidbody2D:
   serializedVersion: 4
@@ -828,9 +815,6 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4086693672103403286, guid: 294ee73b5e219d447aa13df205913b82, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 900313385}
     - targetCorrespondingSourceObject: {fileID: 4086693672103403286, guid: 294ee73b5e219d447aa13df205913b82, type: 3}
       insertIndex: -1
       addedObject: {fileID: 900313388}
