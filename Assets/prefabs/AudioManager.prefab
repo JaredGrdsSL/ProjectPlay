@@ -1,0 +1,139 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &926427304110508308
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 926427304110508310}
+  - component: {fileID: 926427304110508311}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &926427304110508310
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 926427304110508308}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &926427304110508311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 926427304110508308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16080a18f4d00314da719e0152af2736, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - clip: {fileID: 8300000, guid: 7ce611fc4a490874a833321a64b62335, type: 3}
+    name: Theme
+    volume: 0.5
+    pitch: 1
+    loop: 1
+    oneShot: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 71ec1831164d1d441b8473ae2849a76f, type: 3}
+    name: RevolverFire
+    volume: 0.72
+    pitch: 1
+    loop: 0
+    oneShot: 1
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 41bcb5f0a4d5e2a4fa7d618710177d17, type: 3}
+    name: RevolverPickup
+    volume: 0.75
+    pitch: 1
+    loop: 0
+    oneShot: 1
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 6531154ee5d74374e89f43cdec072438, type: 3}
+    name: ShotgunFire
+    volume: 0.75
+    pitch: 1
+    loop: 0
+    oneShot: 1
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: cac2f6b31d26e9f488226a1ae851376d, type: 3}
+    name: ShotgunPickup
+    volume: 0.75
+    pitch: 1
+    loop: 0
+    oneShot: 1
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 55b7a81275fcfd14ca94a01200f8026e, type: 3}
+    name: RifleFire
+    volume: 0.75
+    pitch: 1
+    loop: 0
+    oneShot: 1
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: ac69e0a147b04cd46befefbb45099c2a, type: 3}
+    name: RiflePickup
+    volume: 0.75
+    pitch: 1
+    loop: 0
+    oneShot: 1
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 2778f3929667f8742a16be7828300382, type: 3}
+    name: WaterSplash
+    volume: 1
+    pitch: 1
+    loop: 0
+    oneShot: 1
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: e910bc526a32abb46843c777b6b48d73, type: 3}
+    name: Wind
+    volume: 0.4
+    pitch: 1
+    loop: 0
+    oneShot: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 504e53fe00accbf44987bbba18ec5945, type: 3}
+    name: Hurt1
+    volume: 1
+    pitch: 1
+    loop: 0
+    oneShot: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 921b5018beb964149a28f4b65aa2919a, type: 3}
+    name: Hurt2
+    volume: 1
+    pitch: 1
+    loop: 0
+    oneShot: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 74d8dfaa0e537d44c88b800c49b90480, type: 3}
+    name: Death
+    volume: 1
+    pitch: 1
+    loop: 0
+    oneShot: 0
+    source: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 97e6b732518409f4f852e8f6aefaed1a, type: 3}
+    name: Breathing
+    volume: 1
+    pitch: 1
+    loop: 1
+    oneShot: 0
+    source: {fileID: 0}
+  mixer: {fileID: 24100000, guid: ec3b94d6a7d15164c94959030994e807, type: 2}
