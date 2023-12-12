@@ -299,6 +299,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   respawnPoint: {fileID: 729967599}
   objectToRespawn: {fileID: 867348363}
+  respawnTime: 0
 --- !u!1 &867348363
 GameObject:
   m_ObjectHideFlags: 0
