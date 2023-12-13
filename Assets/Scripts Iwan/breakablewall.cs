@@ -24,13 +24,11 @@ public class BreakableWall : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            audioManager.Play("breakingwall");
             // Destroy the wall
             Destroy(gameObject);
-            
             // Instantiate particles at the wall's position
             GameObject instantiatedParticles = Instantiate(particles, transform.position, transform.rotation);
-            
-            audioManager.Play("breakingwall");
         }
     }
 }
