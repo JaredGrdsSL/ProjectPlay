@@ -10,9 +10,9 @@ public class Respawn : MonoBehaviour {
 
     public GameObject respawnPoint;
     public GameObject objectToRespawn;
-
-    public string myVariable;
     public string deadlyTag;
+
+    public bool canResetScene;
 
     public float respawnTime;
 
@@ -30,7 +30,9 @@ public class Respawn : MonoBehaviour {
         yield return new WaitForSeconds(respawnTime);
 
         if(other.gameObject.CompareTag(deadlyTag)) {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            if(canResetScene) {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            }
             objectToRespawn.transform.position = respawnPoint.transform.position;
         }
     }
