@@ -14,6 +14,9 @@ public class ScoreManager : MonoBehaviour
     // Reference to the player GameObject (assuming it's tagged as "Player")
     private GameObject player;
 
+    // Key to save and load highscore from PlayerPrefs
+    private string highscoreKey = "Highscore";
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,8 +30,9 @@ public class ScoreManager : MonoBehaviour
             Debug.LogError("Player not found! Make sure the player is tagged as 'Player'.");
         }
 
-        scoreText.text = "score: " + score.ToString();
-        highscoreText.text = "highscore: " + highscore.ToString();
+        // Load the highscore from PlayerPrefs
+        highscore = PlayerPrefs.GetInt(highscoreKey, 0);
+        UpdateScoreText();
     }
 
     // Update is called once per frame
@@ -52,13 +56,21 @@ public class ScoreManager : MonoBehaviour
     // Function to update score display
     void UpdateScore()
     {
-        scoreText.text = "score: " + score.ToString();
+        UpdateScoreText();
 
         // Update highscore if the current score surpasses it
         if (score > highscore)
         {
             highscore = score;
+            PlayerPrefs.SetInt(highscoreKey, highscore); // Save highscore to PlayerPrefs
             highscoreText.text = "highscore: " + highscore.ToString();
         }
+    }
+
+    // Function to update score text
+    void UpdateScoreText()
+    {
+        scoreText.text = "score: " + score.ToString();
+        highscoreText.text = "highscore: " + highscore.ToString();
     }
 }
