@@ -5,13 +5,14 @@ using Unity.Burst.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NewBehaviourScript : MonoBehaviour {
+public class PlayerMovement : MonoBehaviour {
     //movement might need some balancing when the sprites are all scaled correctly
 
     [SerializeField] private float minTilt;
     [SerializeField] private float maxTilt;
-    [SerializeField] private bool isBat = false;
-    public float maxFallingSpeed;
+    [SerializeField] private float maxFallingSpeed;
+    [SerializeField] private float jumpPower;
+    public bool isBat = false;
     private float dirX;
     private float horizontalInput;
     private bool isPressingSpace;
@@ -77,12 +78,12 @@ public class NewBehaviourScript : MonoBehaviour {
                 touch = new Touch();
             }
             if (touch.phase == TouchPhase.Ended) {
-                rb.velocity = new Vector2(rb.velocity.x, 10);
+                rb.velocity = new Vector2(rb.velocity.x, jumpPower);
             }
         }
         else if (isPressingSpace) {
             //pc controls
-            rb.velocity = new Vector2(rb.velocity.x, 10);
+            rb.velocity = new Vector2(rb.velocity.x, jumpPower);
         }
     }
 }
