@@ -297,8 +297,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4b76fcc3647e7a499a414f9825f05f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  respawnPoint: {fileID: 0}
-  objectToRespawn: {fileID: 0}
+  respawnPoint: {fileID: 867348363}
+  objectToRespawn: {fileID: 867348363}
+  myVariable: 
+  deadlyTag: Wall
   respawnTime: 0
 --- !u!1 &867348363
 GameObject:
@@ -313,6 +315,7 @@ GameObject:
   - component: {fileID: 867348369}
   - component: {fileID: 867348368}
   - component: {fileID: 867348364}
+  - component: {fileID: 867348370}
   m_Layer: 0
   m_Name: SamplePlayer
   m_TagString: Player
@@ -472,6 +475,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &867348370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 867348363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4b76fcc3647e7a499a414f9825f05f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  respawnPoint: {fileID: 729967599}
+  objectToRespawn: {fileID: 867348363}
+  myVariable: 
+  deadlyTag: Wall
+  respawnTime: 0
 --- !u!1 &1674681320
 GameObject:
   m_ObjectHideFlags: 0
