@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
 
-    public void StartGame() { 
+    public void StartGame() {
         //play crashing animation then trigger LoadLevel()
     }
 
@@ -14,14 +14,13 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene(1);
     }
 
-    public void Creddits() { 
-        
+    public void Creddits() {
+
     }
 
-    public void Settings() { 
-        
+    public void Settings() {
+        SceneManager.LoadScene(2);
     }
-
     public void ExitGame() { 
         Application.Quit();
     }
