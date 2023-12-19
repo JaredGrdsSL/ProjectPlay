@@ -18,10 +18,14 @@ public class PlayerMovement : MonoBehaviour {
     private bool isPressingSpace;
 
 
-    private Rigidbody2D rb;
+    public Rigidbody2D rb;
+    private Animator animator;
+    private SpriteRenderer spriteRenderer;
 
     private void Start() {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void Update() {
@@ -64,6 +68,7 @@ public class PlayerMovement : MonoBehaviour {
 
     private void CheckInputs() {
         dirX = Input.acceleration.x * 180;
+        spriteRenderer.flipX = dirX < 0;
         horizontalInput = Input.GetAxisRaw("Horizontal");
         isPressingSpace = Input.GetKeyDown(KeyCode.Space);
     }
@@ -78,11 +83,15 @@ public class PlayerMovement : MonoBehaviour {
                 touch = new Touch();
             }
             if (touch.phase == TouchPhase.Ended) {
+                animator.SetTrigger("Flap");
+
                 rb.velocity = new Vector2(rb.velocity.x, jumpPower);
             }
         }
         else if (isPressingSpace) {
             //pc controls
+            animator.SetTrigger("Flap");
+
             rb.velocity = new Vector2(rb.velocity.x, jumpPower);
         }
     }
