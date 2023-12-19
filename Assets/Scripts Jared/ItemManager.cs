@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Item : MonoBehaviour
+public class ItemManager : MonoBehaviour
 {
-    public GameObject item;
+    private EnergyManager energyManager;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if(other.gameObject.CompareTag("Player")) {
-            BroadcastMessage("ItemPickedUp");
-            Destroy(item);
+            energyManager.GainEnergy(10f);
+            Destroy(gameObject);
         }
     }
 }
