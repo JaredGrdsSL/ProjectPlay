@@ -15,7 +15,7 @@ public class MainMenu : MonoBehaviour
     }
 
     public void Creddits() {
-
+        SceneManager.LoadScene(3);
     }
 
     public void Settings() {
