@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using Cinemachine;
 using UnityEngine;
 
 public class CameraMovement : MonoBehaviour {
@@ -9,31 +10,34 @@ public class CameraMovement : MonoBehaviour {
 
     private PlayerMovement playerMovement;
 
-    public Cinemachine.CinemachineVirtualCamera virtualCam;
+    private Cinemachine.CinemachineVirtualCamera virtualCam;
     public SpriteRenderer wallSprite;
 
 
 
-    void Start()
-    {
+    void Start() {
         playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
-
-        virtualCam.m_Lens.OrthographicSize = wallSprite.bounds.size.x * Screen.height / Screen.width * 0.5f;
+        virtualCam = GetComponent<CinemachineVirtualCamera>();
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
+        virtualCam.m_Lens.OrthographicSize = wallSprite.bounds.size.x * Screen.height / Screen.width * 0.5f;
 
-        if(!playerMovement.isBat) {
+        if (!playerMovement.isBat) {
             UpdateCamera(playerCameraOffset);
-        } else if(playerMovement.gameObject.transform.position.y > transform.position.y - batCameraOffset) {
+        }
+        else if (playerMovement.gameObject.transform.position.y > transform.position.y - batCameraOffset) {
             UpdateCamera(batCameraOffset);
         }
     }
 
-    private void UpdateCamera(float offset)
-    {
-        transform.position = new Vector3(transform.position.x, playerMovement.gameObject.transform.position.y + offset, transform.position.z);
+    private void UpdateCamera(float offset) {
+        if (transform.position.y > -440.2991f && !playerMovement.isBat) {
+            transform.position = new Vector3(transform.position.x, playerMovement.gameObject.transform.position.y + offset, transform.position.z);
+        }
+        else if (playerMovement.isBat) {
+            transform.position = new Vector3(transform.position.x, playerMovement.gameObject.transform.position.y + offset, transform.position.z);
+        }
     }
 }

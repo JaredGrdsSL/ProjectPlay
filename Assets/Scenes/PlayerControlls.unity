@@ -1049,7 +1049,10 @@ MonoBehaviour:
   maxTilt: 80
   maxFallingSpeed: 5
   jumpPower: 10
+  canMove: 1
   isBat: 0
+  rb: {fileID: 0}
+  particles: {fileID: 0}
 --- !u!61 &1235991940
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1136,8 +1139,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   respawnPoint: {fileID: 1062723790}
   objectToRespawn: {fileID: 1235991935}
-  myVariable: 
   deadlyTag: Deadly
+  canResetScene: 0
   respawnTime: 0.1
 --- !u!1 &1626978161
 GameObject:
@@ -1228,7 +1231,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   batCameraOffset: 2
   playerCameraOffset: -3.5
-  virtualCam: {fileID: 1626978162}
   wallSprite: {fileID: 1042502386}
 --- !u!1 &1996708112
 GameObject:

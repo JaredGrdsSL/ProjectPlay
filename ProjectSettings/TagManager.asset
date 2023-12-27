@@ -8,6 +8,8 @@ TagManager:
   - breakable
   - Deadly
   - Energy
+  - Cloud
+  - Ground
   layers:
   - Default
   - TransparentFX
