@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8151371047537046513
+--- !u!1 &2470498542492022421
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,38 +8,39 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3050555870562411719}
-  - component: {fileID: 5956364892222842128}
-  - component: {fileID: 3881634176439280407}
+  - component: {fileID: 5343764807374549481}
+  - component: {fileID: 5128745332243685146}
+  - component: {fileID: 6600560452473114657}
+  - component: {fileID: 8738674837368785}
   m_Layer: 0
-  m_Name: StalagTight1
-  m_TagString: Deadly
+  m_Name: BreakablePlatform
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3050555870562411719
+--- !u!4 &5343764807374549481
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8151371047537046513}
+  m_GameObject: {fileID: 2470498542492022421}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.314, y: -23.122, z: 0}
+  m_LocalPosition: {x: -0.036114246, y: -172.89499, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &5956364892222842128
+--- !u!212 &5128745332243685146
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8151371047537046513}
+  m_GameObject: {fileID: 2470498542492022421}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -73,25 +74,25 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 6
-  m_Sprite: {fileID: 21300000, guid: 99584638e6078204ca6babc07296fdb3, type: 3}
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 5835370f6aef4fe489dca796830e186d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.882353, y: 2.9411764}
+  m_Size: {x: 5.647059, y: 14.117647}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!60 &3881634176439280407
-PolygonCollider2D:
+--- !u!61 &6600560452473114657
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8151371047537046513}
+  m_GameObject: {fileID: 2470498542492022421}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -114,29 +115,32 @@ PolygonCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.0596416, y: 1.9340363}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.882353, y: 2.9411764}
-    newSize: {x: 1.882353, y: 2.9411764}
+    oldSize: {x: 5.647059, y: 14.117647}
+    newSize: {x: 5.647059, y: 14.117647}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.9141247, y: 1.0862774}
-      - {x: 0.8444463, y: 0.93439865}
-      - {x: 0.7520505, y: 0.93551445}
-      - {x: 0.6948315, y: 0.8395313}
-      - {x: 0.6944996, y: 0.74090004}
-      - {x: 0.47450212, y: 0.510533}
-      - {x: 0.59934384, y: 0.42074272}
-      - {x: 0.87066877, y: 0.44802642}
-      - {x: 1.425952, y: -0.7245066}
-      - {x: 1.4006279, y: 1.7436184}
-  m_UseDelaunayMesh: 0
+  serializedVersion: 2
+  m_Size: {x: 2.9035468, y: 0.49475098}
+  m_EdgeRadius: 0
+--- !u!114 &8738674837368785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2470498542492022421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f35810858c5e11947a2451445635bc05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particles: {fileID: 5367182602527053444, guid: 11ceb4dfbf9736844bc5ca977de7a51f, type: 3}

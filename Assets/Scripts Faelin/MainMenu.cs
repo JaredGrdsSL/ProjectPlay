@@ -3,25 +3,37 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MainMenu : MonoBehaviour
-{
+public class MainMenu : MonoBehaviour {
+    private Animator planeAnimator;
+    private Animator buttonsAnimator;
 
-    public void StartGame() {
-        //play crashing animation then trigger LoadLevel()
+    private bool canInteract = true;
+
+    private void Start() {
+        planeAnimator = GameObject.Find("Plane").GetComponent<Animator>();
+        buttonsAnimator = GameObject.Find("Buttons").GetComponent<Animator>();
     }
 
-    public void LoadLevel() {
-        SceneManager.LoadScene(1);
+    public void StartGame() {
+        canInteract = false;
+        buttonsAnimator.SetTrigger("Hide");
+        planeAnimator.SetTrigger("CrashPlane");
     }
 
     public void Creddits() {
-        SceneManager.LoadScene(3);
+        if (canInteract) {
+            SceneManager.LoadScene(3);
+        }
     }
 
     public void Settings() {
-        SceneManager.LoadScene(2);
+        if (canInteract) {
+            SceneManager.LoadScene(2);
+        }
     }
-    public void ExitGame() { 
-        Application.Quit();
+    public void ExitGame() {
+        if (canInteract) {
+            Application.Quit();
+        }
     }
 }

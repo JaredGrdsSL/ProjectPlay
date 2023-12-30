@@ -15,11 +15,6 @@ public class BreakableWall : MonoBehaviour
         // Initialization code can go here if needed
     }
 
-    void Update()
-    {
-        // Update code can go here if needed
-    }
-
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
