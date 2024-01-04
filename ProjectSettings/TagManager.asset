@@ -10,6 +10,7 @@ TagManager:
   - Energy
   - Cloud
   - Ground
+  - End
   layers:
   - Default
   - TransparentFX

@@ -21,26 +21,24 @@ public class PlayerMovement : MonoBehaviour {
 
     public Rigidbody2D rb;
     public GameObject particles;
+    public GameObject SkyFinal;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
+    private Animator deathScreenAnimator;
+    private Animator winScreenAnimator;
 
     private void Start() {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        deathScreenAnimator = GameObject.Find("DeathScreen").GetComponent<Animator>();
+        winScreenAnimator = GameObject.Find("WinScreen").GetComponent<Animator>();
     }
 
     private void Update() {
         CheckInputs();
         if (isBat) {
             HandleJumping();
-        }
-
-        if (Input.GetKey(KeyCode.T)) {
-            Time.timeScale = 10;
-        }
-        else {
-            Time.timeScale = 1;
         }
     }
 
@@ -116,6 +114,13 @@ public class PlayerMovement : MonoBehaviour {
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D collision) {
+        if (collision.collider.CompareTag("Deadly")) {
+            Time.timeScale = 0;
+            deathScreenAnimator.SetTrigger("DeathScreenIn");
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision) {
         switch (collision.tag) {
             case "Cloud":
@@ -124,10 +129,16 @@ public class PlayerMovement : MonoBehaviour {
             case "Ground":
                 if (!isBat) {
                     animator.SetTrigger("Transform");
+                    Instantiate(SkyFinal);
                     Instantiate(particles, new Vector3(transform.position.x, transform.position.y - .4f, transform.position.z), Quaternion.Euler(0, 0, 90));
                     canMove = false;
                 }
                 break;
+            case "End":
+                Time.timeScale = 0;
+                winScreenAnimator.SetTrigger("WinScreenIn");
+                break;
+
         }
     }
 

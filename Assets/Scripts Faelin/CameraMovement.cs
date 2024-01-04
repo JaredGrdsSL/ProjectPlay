@@ -10,19 +10,16 @@ public class CameraMovement : MonoBehaviour {
 
     private PlayerMovement playerMovement;
 
-    private Cinemachine.CinemachineVirtualCamera virtualCam;
     public SpriteRenderer wallSprite;
 
 
 
     void Start() {
         playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
-        virtualCam = GetComponent<CinemachineVirtualCamera>();
+        Debug.Log(wallSprite.bounds.size.x);
     }
 
-    // Update is called once per frame
     void Update() {
-        virtualCam.m_Lens.OrthographicSize = wallSprite.bounds.size.x * Screen.height / Screen.width * 0.5f;
 
         if (!playerMovement.isBat) {
             UpdateCamera(playerCameraOffset);
