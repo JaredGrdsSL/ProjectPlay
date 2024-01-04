@@ -22,10 +22,12 @@ public class PlayerMovement : MonoBehaviour {
     public Rigidbody2D rb;
     public GameObject particles;
     public GameObject SkyFinal;
+    private GameObject energyBarUI;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
     private Animator deathScreenAnimator;
     private Animator winScreenAnimator;
+    private Animator energyBarAnimator;
 
     private void Start() {
         rb = GetComponent<Rigidbody2D>();
@@ -33,6 +35,10 @@ public class PlayerMovement : MonoBehaviour {
         spriteRenderer = GetComponent<SpriteRenderer>();
         deathScreenAnimator = GameObject.Find("DeathScreen").GetComponent<Animator>();
         winScreenAnimator = GameObject.Find("WinScreen").GetComponent<Animator>();
+        energyBarUI = GameObject.Find("EnergyBar");
+        energyBarAnimator = energyBarUI.GetComponent<Animator>();
+
+        energyBarUI.SetActive(false);
     }
 
     private void Update() {
@@ -153,6 +159,8 @@ public class PlayerMovement : MonoBehaviour {
     public void SwitchColliders() {
         GetComponent<BoxCollider2D>().enabled = true;
         GetComponent<PolygonCollider2D>().enabled = false;
+        energyBarUI.SetActive(true);
+        energyBarAnimator.SetTrigger("EnergyBarIn");
         isBat = true;
         canMove = true;
     }
