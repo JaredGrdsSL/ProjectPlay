@@ -8,7 +8,7 @@ public class ItemManager : MonoBehaviour {
 
     private void Start()
     {
-        energyManager = GameObject.Find("Energy manager").GetComponent<EnergyManager>();
+        energyManager = GameObject.Find("EnergyManager").GetComponent<EnergyManager>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
