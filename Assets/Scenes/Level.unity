@@ -9049,6 +9049,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7577b432bebca2c41add2070f8c0305b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  energyshown: {fileID: 1445007333}
   energyBar: {fileID: 637578010}
   depletionTime: 20
 --- !u!4 &1333846517

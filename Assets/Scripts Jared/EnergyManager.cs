@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class EnergyManager : MonoBehaviour {
+    public GameObject energyshown;
     public Image energyBar;
     private GameObject playerLight;
     private PlayerMovement playerMovement;
@@ -17,8 +18,10 @@ public class EnergyManager : MonoBehaviour {
 
     private void Start()
     {
+        energyshown.SetActive(false);
         playerLight = GameObject.Find("PlayerLight");
         playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
+
     }
 
     void Update()
@@ -26,6 +29,7 @@ public class EnergyManager : MonoBehaviour {
         if(playerMovement.isBat) {
             float depletionAmount = 100f / depletionTime * Time.deltaTime;
             energyAmount -= depletionAmount;
+            showenergy();
         }
 
         energyBar.fillAmount = energyAmount / 100f;
@@ -43,5 +47,9 @@ public class EnergyManager : MonoBehaviour {
     {
         energyAmount += amount;
         energyBar.fillAmount = energyAmount / 100f;
+    }
+    void showenergy()
+    {
+        energyshown.SetActive(true);
     }
 }
