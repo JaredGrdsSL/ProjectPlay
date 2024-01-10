@@ -2,13 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
 public class EnergyManager : MonoBehaviour {
-    public GameObject energyshown;
     public Image energyBar;
-    private GameObject playerLight;
+    private Light2D playerLight;
     private PlayerMovement playerMovement;
+    private CaveEnterTrigger caveEnterTrigger;
 
 
     [Range(1f, 100f)]
@@ -18,9 +19,9 @@ public class EnergyManager : MonoBehaviour {
 
     private void Start()
     {
-        energyshown.SetActive(false);
-        playerLight = GameObject.Find("PlayerLight");
+        playerLight = GameObject.Find("PlayerLight").GetComponent<Light2D>();
         playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
+        caveEnterTrigger = GameObject.Find("CaveLightTrigger").GetComponent<CaveEnterTrigger>();
 
     }
 
@@ -29,7 +30,11 @@ public class EnergyManager : MonoBehaviour {
         if(playerMovement.isBat) {
             float depletionAmount = 100f / depletionTime * Time.deltaTime;
             energyAmount -= depletionAmount;
-            showenergy();
+
+            if (caveEnterTrigger.InCave) { 
+                playerLight.intensity = .5f / 100 * energyAmount;
+            }
+
         }
 
         energyBar.fillAmount = energyAmount / 100f;
@@ -47,9 +52,5 @@ public class EnergyManager : MonoBehaviour {
     {
         energyAmount += amount;
         energyBar.fillAmount = energyAmount / 100f;
-    }
-    void showenergy()
-    {
-        energyshown.SetActive(true);
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
@@ -10,6 +11,9 @@ public class MainMenu : MonoBehaviour {
     private Animator buttonsAnimator;
     private Animator SettingsPannelAnimator;
     private Animator credditsPannelAnimator;
+    private Animator shopPannelAnimator;
+
+    private TextMeshProUGUI energyCounter;
 
     private bool canStartGame = true;
 
@@ -23,12 +27,15 @@ public class MainMenu : MonoBehaviour {
         buttonsAnimator = GameObject.Find("Buttons").GetComponent<Animator>();
         SettingsPannelAnimator = GameObject.Find("SettingsPannel").GetComponent<Animator>();
         credditsPannelAnimator = GameObject.Find("CredditsPannel").GetComponent<Animator>();
+        energyCounter = GameObject.Find("EnergyCounter").GetComponent<TextMeshProUGUI>();
+        shopPannelAnimator = GameObject.Find("ShopPannel").GetComponent<Animator>();
 
         //settings
         //set audio sliders in settings to the value of the audio mixers
         musicSlider = GameObject.Find("MusicSlider").GetComponent<Slider>();
         sfxSlider = GameObject.Find("SFXSlider").GetComponent<Slider>();
 
+        energyCounter.text = InfoAndData.energys.ToString();
         float mixerVolume;
         mainAudioMixer.GetFloat("MusicVolume", out mixerVolume);
         musicSlider.value = mixerVolume;
@@ -39,7 +46,7 @@ public class MainMenu : MonoBehaviour {
     public void StartGame() {
         if (canStartGame) {
             canStartGame = false;
-            buttonsAnimator.SetBool("Hidden", true);
+            HideButtons();
             planeAnimator.SetTrigger("CrashPlane");
         }
     }
@@ -53,29 +60,53 @@ public class MainMenu : MonoBehaviour {
     public void Creddits() {
         if (canStartGame) {
             canStartGame = false;
-            buttonsAnimator.SetBool("Hidden", true);
+            HideButtons();
             credditsPannelAnimator.SetBool("CredditsPannelVisable", true);
         }
     }
 
     public void CredditsBack() {
         canStartGame = true;
-        buttonsAnimator.SetBool("Hidden", false);
+        UnHideButtons();
         credditsPannelAnimator.SetBool("CredditsPannelVisable", false);
     }
 
     public void Settings() {
         if (canStartGame) {
             canStartGame = false;
-            buttonsAnimator.SetBool("Hidden", true);
+            HideButtons();
             SettingsPannelAnimator.SetBool("SettingsPannelVisble", true);
         }
     }
 
     public void SettingsBack() {
         canStartGame = true;
-        buttonsAnimator.SetBool("Hidden", false);
+        UnHideButtons();
         SettingsPannelAnimator.SetBool("SettingsPannelVisble", false);
+    }
+
+    public void Shop() {
+        if (canStartGame) {
+            canStartGame = false;
+            HideButtons();
+            shopPannelAnimator.SetBool("IsDown", true);
+        }
+    }
+
+    public void ShopBack() {
+        canStartGame = true;
+        UnHideButtons();
+        shopPannelAnimator.SetBool("IsDown", false);
+    }
+
+    private void HideButtons() {
+        buttonsAnimator.SetBool("Hidden", true);
+        shopPannelAnimator.SetBool("IsHidden", true);
+    }
+
+    private void UnHideButtons() {
+        buttonsAnimator.SetBool("Hidden", false);
+        shopPannelAnimator.SetBool("IsHidden", false);
     }
 
     //settings functions

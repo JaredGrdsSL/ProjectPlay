@@ -14,6 +14,7 @@ public class ItemManager : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D other)
     {
         if(other.gameObject.CompareTag("Player")) {
+            InfoAndData.energys++;
             energyManager.GainEnergy(10f);
             Destroy(Instantiate(particleSystem, gameObject.transform.position, gameObject.transform.rotation), 3);
             Destroy(gameObject);

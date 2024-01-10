@@ -11,6 +11,7 @@ TagManager:
   - Cloud
   - Ground
   - End
+  - TeleportToCenter
   layers:
   - Default
   - TransparentFX

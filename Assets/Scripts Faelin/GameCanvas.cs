@@ -1,11 +1,58 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameCanvas : MonoBehaviour
 {
+    public TextMeshProUGUI scoreTextDied;
+    public TextMeshProUGUI highscoreTextDied;
+    public TextMeshProUGUI scoreTextWon;
+    public TextMeshProUGUI highscoreTextWon;
+    public TextMeshProUGUI energysTextWon;
+    public TextMeshProUGUI energysTextDied;
+    private int score = 0;
+    private int highscore = 0;
+    public float initialYPosition;
+    public int distanceAsScore;
 
+    private GameObject player;
+
+    private string highscoreKey = "Highscore";
+
+    void Start() {
+        player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null) {
+            initialYPosition = player.transform.position.y;
+        }
+        else {
+            Debug.LogError("Player not found! Make sure the player is tagged as 'Player'.");
+        }
+        highscore = PlayerPrefs.GetInt(highscoreKey, 0);
+    }
+
+    void Update() {
+        if (player != null) {
+            float distanceFallen = Mathf.Abs(initialYPosition) - Mathf.Abs(player.transform.position.y);
+
+            distanceAsScore = Mathf.FloorToInt(Mathf.Abs(distanceFallen));
+            if (distanceAsScore > score) {
+                score = distanceAsScore;
+            }
+        }
+    }
+
+    public void UpdateScore() {
+        if (score > highscore) {
+            highscore = score;
+            PlayerPrefs.SetInt(highscoreKey, highscore);
+        }
+        highscoreTextDied.text = "highscore " + highscore.ToString();
+        highscoreTextWon.text = "highscore " + highscore.ToString();
+        scoreTextDied.text = "score " + score.ToString();
+        scoreTextWon.text = "score " + score.ToString();
+    }
 
 
 

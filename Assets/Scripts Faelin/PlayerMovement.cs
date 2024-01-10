@@ -17,17 +17,23 @@ public class PlayerMovement : MonoBehaviour {
     private float dirX;
     private float horizontalInput;
     private bool isPressingSpace;
+    public int startEnergys = InfoAndData.energys;
 
 
     public Rigidbody2D rb;
     public GameObject particles;
     public GameObject SkyFinal;
+    public GameObject batDeathParticle;
+    public GameObject humanDeathParticle;
     private GameObject energyBarUI;
+    private GameObject energyCanHolder;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
     private Animator deathScreenAnimator;
     private Animator winScreenAnimator;
     private Animator energyBarAnimator;
+    private TextMeshProUGUI energysTextWon;
+    private TextMeshProUGUI energysTextDied;
 
     private void Start() {
         rb = GetComponent<Rigidbody2D>();
@@ -37,8 +43,14 @@ public class PlayerMovement : MonoBehaviour {
         winScreenAnimator = GameObject.Find("WinScreen").GetComponent<Animator>();
         energyBarUI = GameObject.Find("EnergyBar");
         energyBarAnimator = energyBarUI.GetComponent<Animator>();
+        energyCanHolder = GameObject.Find("EnergyHolder");
+        energysTextWon = GameObject.Find("CollectedEnergysWon").GetComponent<TextMeshProUGUI>();
+        energysTextDied = GameObject.Find("CollectedEnergysDied").GetComponent<TextMeshProUGUI>();
 
+        energyCanHolder.SetActive(false);
         energyBarUI.SetActive(false);
+
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
     }
 
     private void Update() {
@@ -54,9 +66,6 @@ public class PlayerMovement : MonoBehaviour {
                 //gets input of acceleromiter default range is -1 to 1 by default and converts the range to -180 to 180
 
                 if (Application.platform == RuntimePlatform.Android) {
-
-                    GameObject.Find("DebugText").GetComponent<TextMeshProUGUI>().text = Mathf.Clamp(dirX, minTilt, maxTilt) / 10.6f + "";
-
                     rb.velocity = new Vector2(Mathf.Clamp(dirX, minTilt, maxTilt) / 10.6f, Mathf.Max(rb.velocity.y, -maxFallingSpeed));
                 }
                 else {
@@ -120,13 +129,6 @@ public class PlayerMovement : MonoBehaviour {
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision) {
-        if (collision.collider.CompareTag("Deadly")) {
-            Time.timeScale = 0;
-            deathScreenAnimator.SetTrigger("DeathScreenIn");
-        }
-    }
-
     private void OnTriggerEnter2D(Collider2D collision) {
         switch (collision.tag) {
             case "Cloud":
@@ -134,6 +136,9 @@ public class PlayerMovement : MonoBehaviour {
                 break;
             case "Ground":
                 if (!isBat) {
+                    energyCanHolder.SetActive(true);
+                    GameCanvas gameCanvas = GameObject.Find("Canvas").GetComponent<GameCanvas>();
+                    gameCanvas.initialYPosition = -880;
                     animator.SetTrigger("Transform");
                     Instantiate(SkyFinal);
                     Instantiate(particles, new Vector3(transform.position.x, transform.position.y - .4f, transform.position.z), Quaternion.Euler(0, 0, 90));
@@ -142,7 +147,23 @@ public class PlayerMovement : MonoBehaviour {
                 break;
             case "End":
                 Time.timeScale = 0;
+                energysTextWon.text = "Collected: " + (InfoAndData.energys - startEnergys).ToString();
                 winScreenAnimator.SetTrigger("WinScreenIn");
+                GameObject.Find("Canvas").GetComponent<GameCanvas>().UpdateScore();
+                break;
+            case "Deadly":
+                GameObject particle = Instantiate(isBat ? batDeathParticle : humanDeathParticle, transform.position, transform.rotation);
+                particle.transform.localScale = new Vector3(isBat ? (spriteRenderer.flipX ? 1 : -1) : (spriteRenderer.flipX ? -1 : 1), 1, 1);
+                particle.transform.rotation = Quaternion.Euler(-90, 0, 0);
+                spriteRenderer.color = new Color(0, 0, 0, 0);
+                energysTextDied.text = "Collected: " + (InfoAndData.energys - startEnergys).ToString();
+
+                GameObject.Find("Canvas").GetComponent<GameCanvas>().UpdateScore();
+                Time.timeScale = 0;
+                deathScreenAnimator.SetTrigger("DeathScreenIn");
+                break;
+            case "TeleportToCenter":
+                transform.position = new Vector3(0, transform.position.y, transform.position.z);
                 break;
 
         }

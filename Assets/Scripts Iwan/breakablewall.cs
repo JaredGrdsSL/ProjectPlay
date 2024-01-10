@@ -12,7 +12,6 @@ public class BreakableWall : MonoBehaviour
     void Start()
     {
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
-        // Initialization code can go here if needed
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -20,10 +19,8 @@ public class BreakableWall : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             audioManager.Play("breakingwall");
-            // Destroy the wall
+            Destroy(Instantiate(particles, new Vector3(transform.position.x, transform.position.y + 1.75f, transform.position.z), Quaternion.Euler(0,0,0)), 5);
             Destroy(gameObject);
-            // Instantiate particles at the wall's position
-            GameObject instantiatedParticles = Instantiate(particles, transform.position, transform.rotation);
         }
     }
 }

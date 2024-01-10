@@ -9,7 +9,7 @@ public class ScoreManager : MonoBehaviour
     public Text highscoreText;
     private int score = 0;
     private int highscore = 0;
-    private float initialYPosition; // Initial Y position of the player
+    public float initialYPosition; // Initial Y position of the player
 
     // Reference to the player GameObject (assuming it's tagged as "Player")
     private GameObject player;
@@ -32,7 +32,6 @@ public class ScoreManager : MonoBehaviour
 
         // Load the highscore from PlayerPrefs
         highscore = PlayerPrefs.GetInt(highscoreKey, 0);
-        UpdateScoreText();
     }
 
     // Update is called once per frame
@@ -54,10 +53,8 @@ public class ScoreManager : MonoBehaviour
     }
 
     // Function to update score display
-    void UpdateScore()
+    public void UpdateScore()
     {
-        UpdateScoreText();
-
         // Update highscore if the current score surpasses it
         if (score > highscore)
         {
@@ -65,12 +62,5 @@ public class ScoreManager : MonoBehaviour
             PlayerPrefs.SetInt(highscoreKey, highscore); // Save highscore to PlayerPrefs
             highscoreText.text = "highscore: " + highscore.ToString();
         }
-    }
-
-    // Function to update score text
-    void UpdateScoreText()
-    {
-        scoreText.text = "score: " + score.ToString();
-        highscoreText.text = "highscore: " + highscore.ToString();
     }
 }

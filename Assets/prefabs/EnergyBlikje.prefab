@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4157071338216487149}
   - component: {fileID: 1589074593083159447}
   - component: {fileID: 7840029989758591576}
+  - component: {fileID: 8876789021422189633}
   m_Layer: 0
   m_Name: EnergyBlikje
   m_TagString: Energy
@@ -152,3 +153,16 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.27, y: 0.75}
   m_EdgeRadius: 0
+--- !u!114 &8876789021422189633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 454219850160140729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8955516989a2fe949878c5158e20df8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particleSystem: {fileID: 3976408832354943465, guid: bb5d6be5a5bab2346b3d5e683a36166e, type: 3}
