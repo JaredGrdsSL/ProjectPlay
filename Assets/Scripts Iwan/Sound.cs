@@ -12,6 +12,8 @@ public class Sound
     [Range(.1f, 3f)]
     public float pitch;
     public bool loop;
+    public bool isMusic;
+    public bool playOnStart;
     public bool oneShot;
 
     [HideInInspector]

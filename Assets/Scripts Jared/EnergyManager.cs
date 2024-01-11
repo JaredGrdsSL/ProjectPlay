@@ -32,7 +32,8 @@ public class EnergyManager : MonoBehaviour {
             energyAmount -= depletionAmount;
 
             if (caveEnterTrigger.InCave) { 
-                playerLight.intensity = .5f / 100 * energyAmount;
+                float toBeValue = 1f / 100 * energyAmount;
+                playerLight.intensity = Mathf.Lerp(playerLight.intensity, toBeValue, 1 * Time.deltaTime);
             }
 
         }

@@ -4,5 +4,4 @@ using UnityEngine;
 
 public class InfoAndData : MonoBehaviour
 {
-    public static int energys;
 }

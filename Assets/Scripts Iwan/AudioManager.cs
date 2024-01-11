@@ -29,7 +29,11 @@ public class AudioManager : MonoBehaviour {
     }
 
     void Start() {
-        Play("theme");
+        foreach (Sound s in sounds) {
+            if (s.playOnStart) {
+                Play(s.name);
+            }
+        }
     }
 
     public void Play(string name) {
@@ -39,7 +43,8 @@ public class AudioManager : MonoBehaviour {
             return;
         }
 
-        s.source.outputAudioMixerGroup = mixer.FindMatchingGroups("Master")[0];
+        //if the sound is music it plays it in the audiomixer Main under the group of Music and if not it plays it under the group Sfx
+        s.source.outputAudioMixerGroup = s.isMusic ? mixer.FindMatchingGroups("Music")[0] : mixer.FindMatchingGroups("Sfx")[0];
 
         if (s.oneShot) {
             s.source.PlayOneShot(s.clip);

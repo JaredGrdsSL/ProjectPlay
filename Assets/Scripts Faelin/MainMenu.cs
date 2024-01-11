@@ -16,6 +16,8 @@ public class MainMenu : MonoBehaviour {
     private TextMeshProUGUI energyCounter;
 
     private bool canStartGame = true;
+    private bool canCrashPlane = false;
+    private float countDown = 0;
 
     //settings
     public AudioMixer mainAudioMixer;
@@ -35,7 +37,7 @@ public class MainMenu : MonoBehaviour {
         musicSlider = GameObject.Find("MusicSlider").GetComponent<Slider>();
         sfxSlider = GameObject.Find("SFXSlider").GetComponent<Slider>();
 
-        energyCounter.text = InfoAndData.energys.ToString();
+        energyCounter.text = PlayerPrefs.GetInt("energys", 0).ToString();
         float mixerVolume;
         mainAudioMixer.GetFloat("MusicVolume", out mixerVolume);
         musicSlider.value = mixerVolume;
@@ -43,8 +45,17 @@ public class MainMenu : MonoBehaviour {
         sfxSlider.value = mixerVolume;
     }
 
+    private void Update() {
+        if (!canCrashPlane) {
+            countDown += Time.deltaTime;
+        }
+        if (countDown > 2 && !canCrashPlane){ 
+            canCrashPlane = true;
+        }
+    }
+
     public void StartGame() {
-        if (canStartGame) {
+        if (canStartGame && canCrashPlane) {
             canStartGame = false;
             HideButtons();
             planeAnimator.SetTrigger("CrashPlane");

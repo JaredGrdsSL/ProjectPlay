@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour {
     private float dirX;
     private float horizontalInput;
     private bool isPressingSpace;
-    public int startEnergys = InfoAndData.energys;
+    public int startEnergys;
 
 
     public Rigidbody2D rb;
@@ -50,6 +50,7 @@ public class PlayerMovement : MonoBehaviour {
         energyCanHolder.SetActive(false);
         energyBarUI.SetActive(false);
 
+        startEnergys = PlayerPrefs.GetInt("energys", 0);
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
     }
 
@@ -92,7 +93,13 @@ public class PlayerMovement : MonoBehaviour {
     private void CheckInputs() {
         if (Application.platform == RuntimePlatform.Android) {
             dirX = Input.acceleration.x * 180;
-            spriteRenderer.flipX = dirX < 0;
+            if (dirX < -10f) {
+                spriteRenderer.flipX = true;
+            }
+            else if (dirX > 10f) {
+                spriteRenderer.flipX = false;
+            }
+            
         }
         else {
             horizontalInput = Input.GetAxisRaw("Horizontal");
@@ -147,7 +154,7 @@ public class PlayerMovement : MonoBehaviour {
                 break;
             case "End":
                 Time.timeScale = 0;
-                energysTextWon.text = "Collected: " + (InfoAndData.energys - startEnergys).ToString();
+                energysTextWon.text = "Collected: " + (PlayerPrefs.GetInt("energys", 0) - startEnergys).ToString();
                 winScreenAnimator.SetTrigger("WinScreenIn");
                 GameObject.Find("Canvas").GetComponent<GameCanvas>().UpdateScore();
                 break;
@@ -156,7 +163,7 @@ public class PlayerMovement : MonoBehaviour {
                 particle.transform.localScale = new Vector3(isBat ? (spriteRenderer.flipX ? 1 : -1) : (spriteRenderer.flipX ? -1 : 1), 1, 1);
                 particle.transform.rotation = Quaternion.Euler(-90, 0, 0);
                 spriteRenderer.color = new Color(0, 0, 0, 0);
-                energysTextDied.text = "Collected: " + (InfoAndData.energys - startEnergys).ToString();
+                energysTextDied.text = "Collected: " + (PlayerPrefs.GetInt("energys", 0) - startEnergys).ToString();
 
                 GameObject.Find("Canvas").GetComponent<GameCanvas>().UpdateScore();
                 Time.timeScale = 0;
