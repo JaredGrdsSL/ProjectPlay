@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
@@ -24,25 +25,35 @@ public class MainMenu : MonoBehaviour {
     private Slider musicSlider;
     private Slider sfxSlider;
 
+    //shop
+    private Image energyBoosterBar;
+    private TextMeshProUGUI energyBoostCostText;
+
     private void Start() {
+        //PlayerPrefs.SetInt("energys", 2000);
+        //PlayerPrefs.SetFloat("energyMultiplier", .7f);
         planeAnimator = GameObject.Find("Plane").GetComponent<Animator>();
         buttonsAnimator = GameObject.Find("Buttons").GetComponent<Animator>();
         SettingsPannelAnimator = GameObject.Find("SettingsPannel").GetComponent<Animator>();
         credditsPannelAnimator = GameObject.Find("CredditsPannel").GetComponent<Animator>();
         energyCounter = GameObject.Find("EnergyCounter").GetComponent<TextMeshProUGUI>();
         shopPannelAnimator = GameObject.Find("ShopPannel").GetComponent<Animator>();
+        energyBoosterBar = GameObject.Find("EnergyBoostUpgradeBarFiller").GetComponent<Image>();
+        energyBoostCostText = GameObject.Find("BoostCostText").GetComponent<TextMeshProUGUI>();
 
         //settings
         //set audio sliders in settings to the value of the audio mixers
         musicSlider = GameObject.Find("MusicSlider").GetComponent<Slider>();
         sfxSlider = GameObject.Find("SFXSlider").GetComponent<Slider>();
 
-        energyCounter.text = PlayerPrefs.GetInt("energys", 0).ToString();
         float mixerVolume;
         mainAudioMixer.GetFloat("MusicVolume", out mixerVolume);
         musicSlider.value = mixerVolume;
         mainAudioMixer.GetFloat("SFXVolume", out mixerVolume);
         sfxSlider.value = mixerVolume;
+
+        SetEnergyCounterApearance();
+        SetEnergyBarBoostFillApearance();
     }
 
     private void Update() {
@@ -151,5 +162,26 @@ public class MainMenu : MonoBehaviour {
     }
     public void OpenYanick() {
         Application.OpenURL("https://www.instagram.com/redresolution_official/");
+    }
+
+    //shop functions 
+    public void IncreaseEnergyBoost() {
+        float price = Mathf.RoundToInt(100 * PlayerPrefs.GetFloat("energyMultiplier", .7f));
+        if (PlayerPrefs.GetInt("energys") - price >= 0 && PlayerPrefs.GetFloat("energyMultiplier", .7f) < 1.9) {
+            PlayerPrefs.SetInt("energys", Mathf.RoundToInt(PlayerPrefs.GetInt("energys", 0) - price));
+            PlayerPrefs.SetFloat("energyMultiplier", PlayerPrefs.GetFloat("energyMultiplier", .7f) + .13f);
+
+            SetEnergyCounterApearance();
+            SetEnergyBarBoostFillApearance();
+        }
+    }
+
+    public void SetEnergyBarBoostFillApearance() {
+        energyBoosterBar.fillAmount = 1 / 1.3f * (PlayerPrefs.GetFloat("energyMultiplier", .7f) - .7f);
+        energyBoostCostText.text = Mathf.RoundToInt(100 * PlayerPrefs.GetFloat("energyMultiplier", .7f)).ToString();
+    }
+
+    public void SetEnergyCounterApearance() {
+        energyCounter.text = PlayerPrefs.GetInt("energys", 0).ToString();
     }
 }
