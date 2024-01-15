@@ -30,8 +30,10 @@ public class MainMenu : MonoBehaviour {
     private TextMeshProUGUI energyBoostCostText;
 
     private void Start() {
-        //PlayerPrefs.SetInt("energys", 2000);
+        //reset player prefs
+        //PlayerPrefs.SetInt("energys", 0);
         //PlayerPrefs.SetFloat("energyMultiplier", .7f);
+        //PlayerPrefs.SetInt("Highscore", 0);
         planeAnimator = GameObject.Find("Plane").GetComponent<Animator>();
         buttonsAnimator = GameObject.Find("Buttons").GetComponent<Animator>();
         SettingsPannelAnimator = GameObject.Find("SettingsPannel").GetComponent<Animator>();
@@ -183,5 +185,9 @@ public class MainMenu : MonoBehaviour {
 
     public void SetEnergyCounterApearance() {
         energyCounter.text = PlayerPrefs.GetInt("energys", 0).ToString();
+    }
+
+    public void PlayRewardedAd() {
+        AdsManager.Instance.rewardedAds.ShowRewardedAd();
     }
 }

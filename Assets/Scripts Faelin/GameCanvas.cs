@@ -4,8 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameCanvas : MonoBehaviour
-{
+public class GameCanvas : MonoBehaviour {
     public TextMeshProUGUI scoreTextDied;
     public TextMeshProUGUI highscoreTextDied;
     public TextMeshProUGUI scoreTextWon;

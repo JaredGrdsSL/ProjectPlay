@@ -52,6 +52,7 @@ public class PlayerMovement : MonoBehaviour {
 
         startEnergys = PlayerPrefs.GetInt("energys", 0);
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
+        InfoAndData.numberOfPlays++;
     }
 
     private void Update() {
@@ -157,6 +158,10 @@ public class PlayerMovement : MonoBehaviour {
                 energysTextWon.text = "Collected: " + (PlayerPrefs.GetInt("energys", 0) - startEnergys).ToString();
                 winScreenAnimator.SetTrigger("WinScreenIn");
                 GameObject.Find("Canvas").GetComponent<GameCanvas>().UpdateScore();
+                if (InfoAndData.numberOfPlays >= 3) {
+                    InfoAndData.numberOfPlays = 0;
+                    AdsManager.Instance.interstitialAds.ShowInterstitialAd();
+                }
                 break;
             case "Deadly":
                 GameObject particle = Instantiate(isBat ? batDeathParticle : humanDeathParticle, transform.position, transform.rotation);
@@ -168,6 +173,10 @@ public class PlayerMovement : MonoBehaviour {
                 GameObject.Find("Canvas").GetComponent<GameCanvas>().UpdateScore();
                 Time.timeScale = 0;
                 deathScreenAnimator.SetTrigger("DeathScreenIn");
+                if (InfoAndData.numberOfPlays >= 3) {
+                    InfoAndData.numberOfPlays = 0;
+                    AdsManager.Instance.interstitialAds.ShowInterstitialAd();
+                }
                 break;
             case "TeleportToCenter":
                 transform.position = new Vector3(0, transform.position.y, transform.position.z);
