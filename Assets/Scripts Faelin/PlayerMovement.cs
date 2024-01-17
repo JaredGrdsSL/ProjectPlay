@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.Burst.CompilerServices;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour {
@@ -25,6 +26,7 @@ public class PlayerMovement : MonoBehaviour {
     public GameObject SkyFinal;
     public GameObject batDeathParticle;
     public GameObject humanDeathParticle;
+    public AudioMixer mixer;
     private GameObject energyBarUI;
     private GameObject energyCanHolder;
     private Animator animator;
@@ -34,6 +36,11 @@ public class PlayerMovement : MonoBehaviour {
     private Animator energyBarAnimator;
     private TextMeshProUGUI energysTextWon;
     private TextMeshProUGUI energysTextDied;
+    private AudioManager audioManager;
+    private CaveEnterTrigger caveEnterTrigger;
+
+
+    public GameObject particlesWoodBreaking;
 
     private void Start() {
         rb = GetComponent<Rigidbody2D>();
@@ -46,6 +53,8 @@ public class PlayerMovement : MonoBehaviour {
         energyCanHolder = GameObject.Find("EnergyHolder");
         energysTextWon = GameObject.Find("CollectedEnergysWon").GetComponent<TextMeshProUGUI>();
         energysTextDied = GameObject.Find("CollectedEnergysDied").GetComponent<TextMeshProUGUI>();
+        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+        caveEnterTrigger = GameObject.Find("CaveLightTrigger").GetComponent<CaveEnterTrigger>();
 
         energyCanHolder.SetActive(false);
         energyBarUI.SetActive(false);
@@ -53,6 +62,8 @@ public class PlayerMovement : MonoBehaviour {
         startEnergys = PlayerPrefs.GetInt("energys", 0);
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
         InfoAndData.numberOfPlays++;
+
+        audioManager.Play("WindFalling");
     }
 
     private void Update() {
@@ -100,7 +111,7 @@ public class PlayerMovement : MonoBehaviour {
             else if (dirX > 10f) {
                 spriteRenderer.flipX = false;
             }
-            
+
         }
         else {
             horizontalInput = Input.GetAxisRaw("Horizontal");
@@ -125,6 +136,7 @@ public class PlayerMovement : MonoBehaviour {
             }
             if (touch.phase == TouchPhase.Ended) {
                 animator.SetTrigger("Flap");
+                audioManager.Play("BatFlap");
 
                 rb.velocity = new Vector2(rb.velocity.x, jumpPower);
             }
@@ -132,6 +144,7 @@ public class PlayerMovement : MonoBehaviour {
         else if (isPressingSpace) {
             //pc controls
             animator.SetTrigger("Flap");
+            audioManager.Play("BatFlap");
 
             rb.velocity = new Vector2(rb.velocity.x, jumpPower);
         }
@@ -144,6 +157,8 @@ public class PlayerMovement : MonoBehaviour {
                 break;
             case "Ground":
                 if (!isBat) {
+                    audioManager.Play("LandInEnergy");
+                    audioManager.Stop("WindFallingCave");
                     energyCanHolder.SetActive(true);
                     GameCanvas gameCanvas = GameObject.Find("Canvas").GetComponent<GameCanvas>();
                     gameCanvas.initialYPosition = -880;
@@ -164,25 +179,77 @@ public class PlayerMovement : MonoBehaviour {
                 }
                 break;
             case "Deadly":
-                GameObject particle = Instantiate(isBat ? batDeathParticle : humanDeathParticle, transform.position, transform.rotation);
-                particle.transform.localScale = new Vector3(isBat ? (spriteRenderer.flipX ? 1 : -1) : (spriteRenderer.flipX ? -1 : 1), 1, 1);
-                particle.transform.rotation = Quaternion.Euler(-90, 0, 0);
-                spriteRenderer.color = new Color(0, 0, 0, 0);
-                energysTextDied.text = "Collected: " + (PlayerPrefs.GetInt("energys", 0) - startEnergys).ToString();
-
-                GameObject.Find("Canvas").GetComponent<GameCanvas>().UpdateScore();
-                Time.timeScale = 0;
-                deathScreenAnimator.SetTrigger("DeathScreenIn");
-                if (InfoAndData.numberOfPlays >= 3) {
-                    InfoAndData.numberOfPlays = 0;
-                    AdsManager.Instance.interstitialAds.ShowInterstitialAd();
-                }
+                Died();
                 break;
             case "TeleportToCenter":
                 transform.position = new Vector3(0, transform.position.y, transform.position.z);
                 break;
+            case "BushTrigger":
+                StartCoroutine(ToggleMusicEffects());
+                if (!isBat) {
+                    audioManager.Stop("WindFalling");
+                    audioManager.Play("RustlingBushes");
+                    audioManager.Play("WindFallingCave");
+                }
+                break;
+            case "BreakAblePlatform":
+                if (isBat) {
+                    Died();
+                }
+                else {
+                    switch (Random.Range(1, 3 + 1)) {
+                        case 1:
+                            audioManager.Play("WoodBreak1");
+                            break;
+                        case 2:
+                            audioManager.Play("WoodBreak2");
+                            break;
+                        case 3:
+                            audioManager.Play("WoodBreak3");
+                            break;
+                    }
+                    Destroy(Instantiate(particlesWoodBreaking, new Vector3(collision.transform.position.x, collision.transform.position.y + 1.75f, collision.transform.position.z), Quaternion.Euler(0, 0, 0)), 5);
+                    Destroy(collision.gameObject);
+                }
+
+                break;
 
         }
+    }
+
+    private void Died() {
+        //generates a random number between 1 and 3 inclusive
+        if (Random.Range(1, 101) < 100) {
+            switch (Random.Range(1, 3 + 1)) {
+                case 1:
+                    audioManager.Play("PlayerDeath1");
+                    break;
+                case 2:
+                    audioManager.Play("PlayerDeath2");
+                    break;
+                case 3:
+                    audioManager.Play("PlayerDeath3");
+                    break;
+            }
+        }
+
+        else {
+            audioManager.Play("PlayerDeathRare");
+        }
+        if (caveEnterTrigger.InCave) {
+            StartCoroutine(ToggleMusicEffects());
+        }
+        audioManager.Stop("WindFalling");
+        audioManager.Stop("WindFallingCave");
+        GameObject particle = Instantiate(isBat ? batDeathParticle : humanDeathParticle, transform.position, transform.rotation);
+        particle.transform.localScale = new Vector3(isBat ? (spriteRenderer.flipX ? 1 : -1) : (spriteRenderer.flipX ? -1 : 1), 1, 1);
+        particle.transform.rotation = Quaternion.Euler(-90, 0, 0);
+        spriteRenderer.color = new Color(0, 0, 0, 0);
+        energysTextDied.text = "Collected: " + (PlayerPrefs.GetInt("energys", 0) - startEnergys).ToString();
+
+        GameObject.Find("Canvas").GetComponent<GameCanvas>().UpdateScore();
+        Time.timeScale = 0;
+        StartCoroutine(DeathScreenIn());
     }
 
     private void OnTriggerExit2D(Collider2D collision) {
@@ -200,5 +267,37 @@ public class PlayerMovement : MonoBehaviour {
         energyBarAnimator.SetTrigger("EnergyBarIn");
         isBat = true;
         canMove = true;
+    }
+
+    public IEnumerator DeathScreenIn() {
+        yield return new WaitForSecondsRealtime(1f);
+        deathScreenAnimator.SetTrigger("DeathScreenIn");
+        if (InfoAndData.numberOfPlays >= 3) {
+            InfoAndData.numberOfPlays = 0;
+            AdsManager.Instance.interstitialAds.ShowInterstitialAd();
+        }
+    }
+
+    public IEnumerator ToggleMusicEffects() {
+        float i;
+        mixer.GetFloat("MusicPitch", out i);
+
+        float timeElapsed = 0;
+        float targetMusicPitch = i < .95f ? 1f : .9f;
+        float currentPitch = i;
+        float targetRoomSize = i < .95 ? -10000 : 0;
+        mixer.GetFloat("MusicRoomSize", out i);
+        float currentRoomSize = i;
+
+        while (timeElapsed < 1) {
+            mixer.SetFloat("MusicRoomSize", Mathf.Lerp(currentRoomSize, targetRoomSize, timeElapsed / 1));
+            mixer.SetFloat("MusicPitch", Mathf.Lerp(currentPitch, targetMusicPitch, timeElapsed / 1));
+            timeElapsed += Time.unscaledDeltaTime;
+            yield return new WaitForSecondsRealtime(.01f);
+        }
+
+        mixer.GetFloat("MusicPitch", out i);
+        mixer.SetFloat("MusicRoomSize", i > .95f ? -10000 : 0);
+        mixer.SetFloat("MusicPitch", i > .95f ? 1f : .9f);
     }
 }

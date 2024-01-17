@@ -12,6 +12,8 @@ TagManager:
   - Ground
   - End
   - TeleportToCenter
+  - BushTrigger
+  - BreakAblePlatform
   layers:
   - Default
   - TransparentFX

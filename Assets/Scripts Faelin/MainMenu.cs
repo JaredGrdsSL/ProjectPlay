@@ -13,6 +13,7 @@ public class MainMenu : MonoBehaviour {
     private Animator SettingsPannelAnimator;
     private Animator credditsPannelAnimator;
     private Animator shopPannelAnimator;
+    private AudioManager audioManager;
 
     private TextMeshProUGUI energyCounter;
 
@@ -28,12 +29,15 @@ public class MainMenu : MonoBehaviour {
     //shop
     private Image energyBoosterBar;
     private TextMeshProUGUI energyBoostCostText;
+    private Image scoreBoosterBar;
+    private TextMeshProUGUI scoreBoostCostText;
 
     private void Start() {
         //reset player prefs
         //PlayerPrefs.SetInt("energys", 0);
         //PlayerPrefs.SetFloat("energyMultiplier", .7f);
         //PlayerPrefs.SetInt("Highscore", 0);
+        //PlayerPrefs.SetFloat("ScoreMultiplier", .7f);
         planeAnimator = GameObject.Find("Plane").GetComponent<Animator>();
         buttonsAnimator = GameObject.Find("Buttons").GetComponent<Animator>();
         SettingsPannelAnimator = GameObject.Find("SettingsPannel").GetComponent<Animator>();
@@ -41,28 +45,35 @@ public class MainMenu : MonoBehaviour {
         energyCounter = GameObject.Find("EnergyCounter").GetComponent<TextMeshProUGUI>();
         shopPannelAnimator = GameObject.Find("ShopPannel").GetComponent<Animator>();
         energyBoosterBar = GameObject.Find("EnergyBoostUpgradeBarFiller").GetComponent<Image>();
-        energyBoostCostText = GameObject.Find("BoostCostText").GetComponent<TextMeshProUGUI>();
+        energyBoostCostText = GameObject.Find("EnergyBoostCostText").GetComponent<TextMeshProUGUI>();
+        scoreBoosterBar = GameObject.Find("ScoreBoostUpgradeBarFiller").GetComponent<Image>();
+        scoreBoostCostText = GameObject.Find("ScoreBoostCostText").GetComponent<TextMeshProUGUI>();
+        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+
+        audioManager.Play("WindWooshing");
+        audioManager.Play("PlanePropeller");
+        audioManager.Play("MenuTheme");
 
         //settings
         //set audio sliders in settings to the value of the audio mixers
         musicSlider = GameObject.Find("MusicSlider").GetComponent<Slider>();
         sfxSlider = GameObject.Find("SFXSlider").GetComponent<Slider>();
 
-        float mixerVolume;
-        mainAudioMixer.GetFloat("MusicVolume", out mixerVolume);
-        musicSlider.value = mixerVolume;
-        mainAudioMixer.GetFloat("SFXVolume", out mixerVolume);
-        sfxSlider.value = mixerVolume;
+        mainAudioMixer.SetFloat("MusicVolume", PlayerPrefs.GetFloat("MusicVolumeSaved", 0));
+        musicSlider.value = PlayerPrefs.GetFloat("MusicVolumeSaved", 0);
+        mainAudioMixer.SetFloat("SFXVolume", PlayerPrefs.GetFloat("SFXVolumeSaved", 0));
+        sfxSlider.value = PlayerPrefs.GetFloat("SFXVolumeSaved", 0);
 
         SetEnergyCounterApearance();
         SetEnergyBarBoostFillApearance();
+        SetScoreBarBoostFillApearance();
     }
 
     private void Update() {
         if (!canCrashPlane) {
             countDown += Time.deltaTime;
         }
-        if (countDown > 2 && !canCrashPlane){ 
+        if (countDown > 1 && !canCrashPlane){ 
             canCrashPlane = true;
         }
     }
@@ -104,6 +115,12 @@ public class MainMenu : MonoBehaviour {
     }
 
     public void SettingsBack() {
+        float i;
+        mainAudioMixer.GetFloat("MusicVolume", out i);
+        PlayerPrefs.SetFloat("MusicVolumeSaved", i);
+        mainAudioMixer.GetFloat("SFXVolume", out i);
+        PlayerPrefs.SetFloat("SFXVolumeSaved", i);
+
         canStartGame = true;
         UnHideButtons();
         SettingsPannelAnimator.SetBool("SettingsPannelVisble", false);
@@ -131,6 +148,14 @@ public class MainMenu : MonoBehaviour {
     private void UnHideButtons() {
         buttonsAnimator.SetBool("Hidden", false);
         shopPannelAnimator.SetBool("IsHidden", false);
+    }
+
+    public void playButtonOpenSFX() {
+        audioManager.Play("ButtonOpen");
+    }
+
+    public void playButtonCloseSFX() {
+        audioManager.Play("ButtonClose");
     }
 
     //settings functions
@@ -167,6 +192,7 @@ public class MainMenu : MonoBehaviour {
     }
 
     //shop functions 
+    //EnergyBoost
     public void IncreaseEnergyBoost() {
         float price = Mathf.RoundToInt(100 * PlayerPrefs.GetFloat("energyMultiplier", .7f));
         if (PlayerPrefs.GetInt("energys") - price >= 0 && PlayerPrefs.GetFloat("energyMultiplier", .7f) < 1.9) {
@@ -183,6 +209,23 @@ public class MainMenu : MonoBehaviour {
         energyBoostCostText.text = Mathf.RoundToInt(100 * PlayerPrefs.GetFloat("energyMultiplier", .7f)).ToString();
     }
 
+    //ScoreMultiplier
+    public void IncreaseScoreBoost() {
+        float price = Mathf.RoundToInt(100 * PlayerPrefs.GetFloat("ScoreMultiplier", .7f));
+        if (PlayerPrefs.GetInt("energys") - price >= 0 && PlayerPrefs.GetFloat("ScoreMultiplier", .7f) < 1.9) {
+            PlayerPrefs.SetInt("energys", Mathf.RoundToInt(PlayerPrefs.GetInt("energys", 0) - price));
+            PlayerPrefs.SetFloat("ScoreMultiplier", PlayerPrefs.GetFloat("ScoreMultiplier", .7f) + .13f);
+
+            SetEnergyCounterApearance();
+            SetScoreBarBoostFillApearance();
+        }
+    }
+
+    public void SetScoreBarBoostFillApearance() {
+        scoreBoosterBar.fillAmount = 1 / 1.3f * (PlayerPrefs.GetFloat("ScoreMultiplier", .7f) - .7f);
+        scoreBoostCostText.text = Mathf.RoundToInt(100 * PlayerPrefs.GetFloat("ScoreMultiplier", .7f)).ToString();
+    }
+    
     public void SetEnergyCounterApearance() {
         energyCounter.text = PlayerPrefs.GetInt("energys", 0).ToString();
     }
